@@ -1,27 +1,35 @@
-/* Write a script that creates all the tables below in alx_book_store in your MySQL server.
-   Tables
-   For each table/relation below, you can find the attributes in task 0
-   books
-   authors
-   customers
-   orders
-   order details
-   Name of the file should be task_2.sql
-*/
+CREATE DATABASE IF NOT EXISTS alx_book_store;
 USE alx_book_store;
-CREATE TABLE CUSTOMERS (
-    CUSTOMER_ID INT PRIMARY KEY,       -- Unique identifier for each customer
-    CUSTOMER_NAME VARCHAR(215),        -- Customer's name
-    EMAIL VARCHAR(215),                -- Customer's email address
-    ADDRESS TEXT                       -- Customer's address
-);
 
-CREATE TABLE AUTHORS (
-    AUTHOR_ID INT PRIMARY KEY,         -- Unique identifier for each author
-    AUTHOR_NAME VARCHAR(215)           -- Author's name
+CREATE TABLE Customers(
+	customer_id INT Primary Key,
+	customer_name VARCHAR(215),
+	email VARCHAR(215),
+	address TEXT
 );
-
-CREATE TABLE BOOKS (
-    BOOK_ID INT PRIMARY KEY,           -- Unique identifier for each book
-    TITLE VARCHAR(130),                -- Title of the book
-    AUTHOR_ID INT,             
+CREATE TABLE Authors(
+	author_id INT Primary Key,
+	author_name VARCHAR(215)
+);
+CREATE TABLE Books (
+  book_id INT PRIMARY KEY,
+  title VARCHAR(130),
+  author_id INT,
+  price DOUBLE,
+  publication_date DATE,
+  FOREIGN KEY (author_id) REFERENCES Authors (author_id)
+); 
+CREATE TABLE Orders(
+	order_id INT Primary Key,
+	customer_id INT,
+	order_date DATE,
+	FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+CREATE TABLE Order_Details(
+	orderdetailid INT Primary Key,
+	order_id INT,
+	book_id INT,
+	quantity DOUBLE,
+	FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+	FOREIGN KEY (book_id) REFERENCES Books(book_id)
+);
